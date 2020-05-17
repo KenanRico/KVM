@@ -1,4 +1,4 @@
-#include "exe.h"
+#include "bin.h"
 
 #include <string>
 #include <vector>
@@ -6,15 +6,15 @@
 
 
 
-Exe::Exe(const char* _fn): fn(_fn), type(FF_INVALID){
+Bin::Bin(const char* _fn): fn(_fn), type(FF_INVALID){
 	GetContent();
 }
 
-Exe::~Exe(){
+Bin::~Bin(){
 
 }
 
-void Exe::GetContent(){
+void Bin::GetContent(){
 	std::ifstream fin;
 	fin.open(fn, std::ios::in|std::ios::binary);
 	if(fin.is_open()){
@@ -30,6 +30,6 @@ void Exe::GetContent(){
 	}
 }
 
-std::vector<uint8_t>& Exe::Content(){
+std::vector<uint8_t>& Bin::Content(){
 	return content;
 }

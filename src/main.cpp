@@ -1,4 +1,4 @@
-#include "exe.h"
+#include "bin.h"
 
 #include <iostream>
 
@@ -11,7 +11,7 @@ int main(int argc, const char** argv){
 		std::cout<<"Please provide executable name\n";
 		exit(-1);
 	}
-	Exe exe(argv[1]);
+	Bin exe(argv[1]);
 
 	return 0;
 }

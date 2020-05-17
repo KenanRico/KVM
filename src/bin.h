@@ -1,5 +1,5 @@
-#ifndef EXE_H
-#define EXE_H
+#ifndef BIN_H
+#define BIN_H
 
 #include <vector>
 #include <string>
@@ -10,22 +10,22 @@
 #define FF_ELF 1
 
 
-class Exe{
+class Bin{
 	private:
 		uint8_t type;
 		std::string fn;
 		std::vector<uint8_t> content;
 	
 	public:
-		Exe(const char*);
-		~Exe();
+		Bin(const char*);
+		~Bin();
 
 		std::vector<uint8_t>& Content();
 
 	private:
-		Exe() = delete;
-		Exe(const Exe&) = delete;
-		Exe& operator=(const Exe&) = delete;
+		Bin() = delete;
+		Bin(const Bin&) = delete;
+		Bin& operator=(const Bin&) = delete;
 
 		void GetContent();
 	
