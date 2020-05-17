@@ -1,0 +1,11 @@
+linux/*
+!linux/build_cmake.sh
+!linux/bin/
+linux/bin/*
+!linux/bin/.gitkeep
+
+windows/*
+!windows/build_cmake.bat
+!windows/bin/
+windows/bin/*
+!windows/bin/.gitkeep
