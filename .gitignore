@@ -9,3 +9,5 @@ windows/*
 !windows/bin/
 windows/bin/*
 !windows/bin/.gitkeep
+
+test/
