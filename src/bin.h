@@ -1,34 +1,26 @@
 #ifndef BIN_H
 #define BIN_H
 
+
 #include <vector>
-#include <string>
 #include <stdint.h>
 
 
-#define FF_INVALID 0
-#define FF_ELF 1
-
-
 class Bin{
-	private:
-		uint8_t type;
-		std::string fn;
+	protected:
 		std::vector<uint8_t> content;
 	
-	public:
-		Bin(const char*);
-		~Bin();
-
-		std::vector<uint8_t>& Content();
-
 	private:
 		Bin() = delete;
 		Bin(const Bin&) = delete;
 		Bin& operator=(const Bin&) = delete;
+	public:
+		Bin(const std::vector<uint8_t>&);
+		virtual ~Bin();
 
-		void GetContent();
-	
+	public:
+		virtual void Run() = 0;
 };
+
 
 #endif

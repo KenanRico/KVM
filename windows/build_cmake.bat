@@ -4,3 +4,4 @@ popd
 cmake -G "MinGW Makefiles" ..
 cmake --build .
 move SomethingVM.exe bin/
+PAUSE
