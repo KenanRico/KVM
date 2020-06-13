@@ -1,8 +1,12 @@
-#ifndef ARCH_H
-#define ARCH_H
+#ifndef Arch_H
+#define Arch_H
 
 
-namespace ARCH{
+#include <vector>
+#include <stdint.h>
+
+
+namespace Arch{
 	//TODO: change these to constexpr later
 	const int _AMD64 = 1;
 	const int _ARM = 2;			//unsupported atm
@@ -12,18 +16,21 @@ namespace ARCH{
 
 
 
-namespace ARCH{
-
+namespace Arch{
 	//variables and actions specific to amd64 arch
-	class AMD64{
-		public:
-			AMD64();
-			~AMD64();
+	class Amd64{
 		private:
-			AMD64(const AMD64&) = delete;
-			AMD64& operator=(const AMD64&) = delete;
+			//registers
+			//memory
+			//instruction
+		public:
+			Amd64();
+			~Amd64();
+			Amd64(const Amd64&) = delete;
+			Amd64& operator=(const Amd64&) = delete;
+		public:
+			void Initialize(const std::vector<uint8_t>&, int, int);
 	};
-
 }
 
 

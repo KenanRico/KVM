@@ -9,14 +9,12 @@
 class Bin{
 	protected:
 		std::vector<uint8_t> content;
-	
-	private:
-		Bin() = delete;
-		Bin(const Bin&) = delete;
-		Bin& operator=(const Bin&) = delete;
 	public:
 		Bin(const std::vector<uint8_t>&);
 		virtual ~Bin();
+		Bin() = delete;
+		Bin(const Bin&) = delete;
+		Bin& operator=(const Bin&) = delete;
 
 	public:
 		virtual void Run() = 0;

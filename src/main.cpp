@@ -15,7 +15,7 @@
 int main(int argc, const char** argv){
 
 	if(argc!=2){
-		LOG::Error("Please provide executable name");
+		Log::Error("Please provide executable name");
 		exit(-1);
 	}
 
@@ -23,18 +23,18 @@ int main(int argc, const char** argv){
 	int format, arch, sys = 0;
 	std::vector<uint8_t> content = CheckABI(exefile, &format, &arch, &sys);
 	if(content.size()==0){
-		LOG::Error("Cannot load bin file");
+		Log::Error("Cannot load bin file");
 		exit(-1);
 	}
 
 	std::unique_ptr<Bin> exe = nullptr;
-	if(format==FFORMAT::_ELF && arch==ARCH::_AMD64 && sys==SYS::_UNIX){
-		exe = CreateExecutable<FFORMAT::ELF, ARCH::AMD64, SYS::UNIX>(content);
+	if(format==Fformat::_ELF64 && arch==Arch::_AMD64 && sys==Sys::_UNIX){
+		exe = CreateExecutable<Fformat::Elf64, Arch::Amd64, Sys::Unix>(content);
 	}else{
 		//everything else is unimplemented
 	}
 	if(exe==nullptr){
-		LOG::Error("Failed to retrieve execution envivronments from file");
+		Log::Error("Failed to retrieve execution envivronments from file");
 		exit(-1);
 	}
 

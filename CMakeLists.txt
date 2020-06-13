@@ -9,7 +9,7 @@ set(SOURCE
 	${SRCDIR}/binops.cpp 
 	${SRCDIR}/arch/amd64.cpp
 	${SRCDIR}/sys/unix.cpp
-	${SRCDIR}/fformat/elf.cpp
+	${SRCDIR}/fformat/elf64.cpp
 	${SRCDIR}/log/log.cpp
 )
 

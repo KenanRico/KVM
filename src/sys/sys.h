@@ -1,28 +1,27 @@
-#ifndef SYS_H
-#define SYS_H
+#ifndef Sys_H
+#define Sys_H
 
 
-namespace SYS{
+namespace Sys{
 
 	//TODO: change to constexpr later
 	const int _UNIX = 1;
 	const int _WINDOWS = 2;
 	const int _ZOS = 3;
 
-	class UNIX;
+	class Unix;
 }
 
 
-namespace SYS{
+namespace Sys{
 
 	//behaviors specific to UNIX os
-	class UNIX{
+	class Unix{
 		public:
-			UNIX();
-			~UNIX();
-		private:
-			UNIX(const UNIX&) = delete;
-			UNIX& operator=(const UNIX&) = delete;
+			Unix();
+			~Unix();
+			Unix(const Unix&) = delete;
+			Unix& operator=(const Unix&) = delete;
 	};
 
 }

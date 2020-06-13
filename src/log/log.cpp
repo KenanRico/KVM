@@ -4,7 +4,7 @@
 #include <iostream>
 
 
-namespace LOG{
+namespace Log{
 
 	void Message(const std::string& str){
 		std::cout<<"Message: "<<str<<"\n";

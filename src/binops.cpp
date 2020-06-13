@@ -3,12 +3,14 @@
 #include <arch/arch.h>
 #include <fformat/fformat.h>
 #include <sys/sys.h>
+#include <log/log.h>
 
 #include <vector>
 #include <string>
 #include <fstream>
 #include <memory>
 #include <stdint.h>
+#include <stdlib.h>
 
 
 
@@ -28,26 +30,33 @@ std::vector<uint8_t> CheckABI(const std::string& fn, int* fformat, int* arch, in
 		fin.read((char*)content.data(), content.size());
 		fin.close();
 	}else{
-		//TODO: report error
+		Log::Error("Cannot open file");
+		return {};
 	}
 
 	/* if file is not an EXEC, return empty content*/
-	if(content.at(16)!=2){
+	if(content.at(static_cast<size_t>(16))!=2){
 		return {};
 	}
 
 	/* parse content for file format, then use that to get arch and sys */
 	if(content[1]=='E' && content[2]=='L' && content[3]=='F'){
-		*fformat = FFORMAT::_ELF;
+		if(content[4]==1){
+			*fformat = Fformat::_ELF32;
+		}
+		if(content[4]==2){
+			*fformat = Fformat::_ELF64;
+		}
 	}else{
 		//unimplemented
 	}
 	switch(*fformat){
-		case FFORMAT::_ELF:
-			*sys = SYS::_UNIX;
-			switch(content[18]){
+		case Fformat::_ELF32:
+		case Fformat::_ELF64:
+			*sys = Sys::_UNIX;
+			switch(content[static_cast<size_t>(18)]){
 				case 0x3e:
-					*arch = ARCH::_AMD64;
+					*arch = Arch::_AMD64;
 					break;
 				default:
 					//unimplemented

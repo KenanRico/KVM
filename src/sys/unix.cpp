@@ -3,13 +3,13 @@
 
 
 
-namespace SYS{
+namespace Sys{
 
-	UNIX::UNIX(){
-		LOG::Message("Initializing UNIX operating system");
+	Unix::Unix(){
+		Log::Message("Initializing UNIX operating system");
 	}
 
-	UNIX::~UNIX(){
+	Unix::~Unix(){
 
 	}
 
