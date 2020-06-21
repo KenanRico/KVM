@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <stdint.h>
 #include <vector>
+#include <unordered_map>
 
 #include <log/log.h>
 
@@ -20,15 +21,15 @@ namespace Fformat{
 
 namespace Fformat{
 	template<typename T>
-	T ToIntegral(const std::vector<uint8_t>& content, int start, int end){
-		size_t size = end-start+1;
+	T ToIntegral(const std::vector<uint8_t>& content, int first, int last){
+		size_t size = last-first+1;
 		if(size != sizeof(T)){
 			Log::Error("Size discrepancy in ToIntegral");
 			return 0;
 		}
 		T integral = 0;
 		for(size_t i=0; i<size; ++i){
-			integral |= content[start+i] << i*8;
+			integral |= content[first+i] << i*8;
 		}
 		return integral;
 	}
@@ -45,14 +46,16 @@ namespace Fformat{
 		private:
 			struct {
 				uint64_t start;
-				uint64_t entry_size;
-				uint64_t entry_number;
+				uint16_t entry_size;
+				uint16_t entry_number;
 			} ph;
 			struct {
 				uint64_t start;
-				uint64_t entry_size;
-				uint64_t entry_number;
+				uint16_t entry_size;
+				uint16_t entry_number;
+				uint16_t name_section_index;
 			} sh;
+			std::unordered_map<std::string, uint64_t> section_offset_table;
 		public:
 			enum class Position: size_t {
 				TYPE = 16,
