@@ -20,7 +20,7 @@ namespace Fformat{
 		section_offset_table.insert(std::make_pair(".rodata", 0));
 		/* using the name section index, locate the offset of name section, retrieve
 		indices of names of interest (.text, .data, .rodata, etc..) */
-		uint16_t name_section_start = ToIntegral<uint64_t>(
+		uint64_t name_section_start = ToIntegral<uint64_t>(
 			content,
 			sh.start+sh.entry_size*sh.name_section_index+24,
 			sh.start+sh.entry_size*sh.name_section_index+31
