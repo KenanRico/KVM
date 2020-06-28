@@ -35,9 +35,6 @@ namespace Fformat{
 			std::string name = (char*)&content[name_section_offset+she.name];
 			section_table_entries.insert({name, she});
 		}
-		for(auto i=section_table_entries.begin(); i!=section_table_entries.end(); ++i){
-			std::cout<<i->first<<" "<<i->second.name<<" "<<std::hex<<i->second.addr<<" "<<i->second.offset<<"\n";
-		}
 	}
 
 	Elf64::~Elf64(){
