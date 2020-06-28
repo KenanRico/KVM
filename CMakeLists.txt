@@ -7,9 +7,9 @@ set(SOURCE
 	${SRCDIR}/main.cpp
 	${SRCDIR}/bin.cpp 
 	${SRCDIR}/binops.cpp 
-	${SRCDIR}/arch/amd64.cpp
-	${SRCDIR}/sys/unix.cpp
-	${SRCDIR}/fformat/elf64.cpp
+	${SRCDIR}/arch/amd64/amd64.cpp
+	${SRCDIR}/sys/unix/unix.cpp
+	${SRCDIR}/fformat/elf64/elf64.cpp
 	${SRCDIR}/log/log.cpp
 )
 

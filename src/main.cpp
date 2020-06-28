@@ -1,7 +1,10 @@
 #include <binops.h>
 #include <arch/arch.h>
+#include <arch/amd64/amd64.h>
 #include <fformat/fformat.h>
+#include <fformat/elf64/elf64.h>
 #include <sys/sys.h>
+#include <sys/unix/unix.h>
 #include <log/log.h>
 #include <executable.h>
 

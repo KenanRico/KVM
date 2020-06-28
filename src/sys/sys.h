@@ -1,5 +1,5 @@
-#ifndef Sys_H
-#define Sys_H
+#ifndef SYS_H
+#define SYS_H
 
 
 namespace Sys{
@@ -10,20 +10,6 @@ namespace Sys{
 	const int _ZOS = 3;
 
 	class Unix;
-}
-
-
-namespace Sys{
-
-	//behaviors specific to UNIX os
-	class Unix{
-		public:
-			Unix();
-			~Unix();
-			Unix(const Unix&) = delete;
-			Unix& operator=(const Unix&) = delete;
-	};
-
 }
 
 

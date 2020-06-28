@@ -1,5 +1,8 @@
 #include <fformat/fformat.h>
+#include "elf64.h"
 #include <log/log.h>
+
+#include <cstring>
 
 #include <iostream>
 namespace Fformat{
@@ -14,27 +17,26 @@ namespace Fformat{
 		sh.entry_size = ToIntegral<uint16_t>(content, 58, 59);
 		sh.entry_number = ToIntegral<uint16_t>(content, 60, 61);
 		sh.name_section_index = ToIntegral<uint16_t>(content, 62, 63);
-		// declare sections of interest
-		section_offset_table.insert(std::make_pair(".text", 0));
-		section_offset_table.insert(std::make_pair(".data", 0));
-		section_offset_table.insert(std::make_pair(".rodata", 0));
 		/* using the name section index, locate the offset of name section, retrieve
 		indices of names of interest (.text, .data, .rodata, etc..) */
-		uint64_t name_section_start = ToIntegral<uint64_t>(
+		uint64_t name_section_offset = ToIntegral<uint64_t>(
 			content,
 			sh.start+sh.entry_size*sh.name_section_index+24,
 			sh.start+sh.entry_size*sh.name_section_index+31
 		);
-		uint16_t i = 0;
-		while(i<=sh.entry_number){
-			if(content[name_section_start]==0){
-				++name_section_start;
-				++i;
-				std::cout<<"\n";
-				continue;
-			}
-			std::cout<<(char)content[name_section_start];
-			++name_section_start;
+		for(uint16_t i=0; i<sh.entry_number; ++i){
+			uint64_t entryoffset = sh.start+sh.entry_size*i;
+			SectionHeaderEntry she;
+			she.name = ToIntegral<uint32_t>(
+				content, entryoffset, entryoffset+3
+			);
+			she.addr = ToIntegral<uint64_t>(content, entryoffset+16, entryoffset+23);
+			she.offset = ToIntegral<uint64_t>(content, entryoffset+24, entryoffset+31);
+			std::string name = (char*)&content[name_section_offset+she.name];
+			section_table_entries.insert({name, she});
+		}
+		for(auto i=section_table_entries.begin(); i!=section_table_entries.end(); ++i){
+			std::cout<<i->first<<" "<<i->second.name<<" "<<std::hex<<i->second.addr<<" "<<i->second.offset<<"\n";
 		}
 	}
 

@@ -1,4 +1,4 @@
-#include <arch/arch.h>
+#include "amd64.h"
 #include <log/log.h>
 #include <vector>
 #include <stdint.h>
