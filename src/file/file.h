@@ -1,5 +1,5 @@
-#ifndef FFORMAT_H
-#define FFORMAT_H
+#ifndef FILE_H
+#define FILE_H
 
 
 #include <stdint.h>
@@ -8,7 +8,7 @@
 #include <log/log.h>
 
 
-namespace Fformat{
+namespace File{
 
 	// file format numbers
 	// TODO: change to constexpr later

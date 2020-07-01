@@ -1,9 +1,9 @@
 #include <binops.h>
 #include <bin.h>
-#include <arch/arch.h>
-#include <arch/amd64/amd64.h>
-#include <fformat/fformat.h>
-#include <fformat/elf64/elf64.h>
+#include <isa/isa.h>
+#include <isa/amd64/amd64.h>
+#include <file/file.h>
+#include <file/elf64/elf64.h>
 #include <sys/sys.h>
 #include <sys/unix/unix.h>
 #include <log/log.h>
@@ -19,7 +19,7 @@
 
 
 //TODO: modify this function to use move semantics to return vector
-std::vector<uint8_t> CheckABI(const std::string& fn, int* fformat, int* arch, int* sys){
+std::vector<uint8_t> CheckABI(const std::string& fn, int* fformat, int* isa, int* sys){
 
 	std::vector<uint8_t> content = {};
 	std::ifstream fin;
@@ -42,24 +42,24 @@ std::vector<uint8_t> CheckABI(const std::string& fn, int* fformat, int* arch, in
 		return {};
 	}
 
-	/* parse content for file format, then use that to get arch and sys */
+	/* parse content for file format, then use that to get isa and sys */
 	if(content[1]=='E' && content[2]=='L' && content[3]=='F'){
 		if(content[4]==1){
-			*fformat = Fformat::_ELF32;
+			*fformat = File::_ELF32;
 		}
 		if(content[4]==2){
-			*fformat = Fformat::_ELF64;
+			*fformat = File::_ELF64;
 		}
 	}else{
 		//unimplemented
 	}
 	switch(*fformat){
-		case Fformat::_ELF32:
-		case Fformat::_ELF64:
+		case File::_ELF32:
+		case File::_ELF64:
 			*sys = Sys::_UNIX;
 			switch(content[static_cast<size_t>(18)]){
 				case 0x3e:
-					*arch = Arch::_AMD64;
+					*isa = ISA::_AMD64;
 					break;
 				default:
 					//unimplemented

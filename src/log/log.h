@@ -8,6 +8,7 @@ namespace Log{
 	void Message(const std::string&);
 	void Warning(const std::string&);
 	void Error(const std::string&);
+	void Debugf(const char* fmt...);
 }
 
 

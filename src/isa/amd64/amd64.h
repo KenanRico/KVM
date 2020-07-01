@@ -6,7 +6,7 @@
 #include <stdint.h>
 
 
-namespace Arch{
+namespace ISA{
 	//variables and actions specific to amd64 arch
 	class Amd64{
 		private:
@@ -19,7 +19,9 @@ namespace Arch{
 			Amd64(const Amd64&) = delete;
 			Amd64& operator=(const Amd64&) = delete;
 		public:
-			void Initialize(const std::vector<uint8_t>&, int, int);
+			void GenerateCode(const std::vector<uint8_t>&, uint64_t, uint64_t);
+			void GenerateData(const std::vector<uint8_t>&, uint64_t, uint64_t);
+			void GenerateROData(const std::vector<uint8_t>&, uint64_t, uint64_t);
 	};
 }
 

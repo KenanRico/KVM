@@ -1,7 +1,7 @@
 #ifndef ELF_32_H
 #define ELF_32_H
 
-namespace Fformat{
+namespace File{
 	class Elf32{};
 }
 

@@ -1,11 +1,11 @@
-#include <fformat/fformat.h>
+#include <file/file.h>
 #include "elf64.h"
 #include <log/log.h>
 
 #include <cstring>
 
 #include <iostream>
-namespace Fformat{
+namespace File{
 
 	Elf64::Elf64(const std::vector<uint8_t>& content){
 		Log::Message("Initializing 64-bit Elf file format");
@@ -32,6 +32,7 @@ namespace Fformat{
 			);
 			she.addr = ToIntegral<uint64_t>(content, entryoffset+16, entryoffset+23);
 			she.offset = ToIntegral<uint64_t>(content, entryoffset+24, entryoffset+31);
+			she.size = ToIntegral<uint64_t>(content, entryoffset+32, entryoffset+39);
 			std::string name = (char*)&content[name_section_offset+she.name];
 			section_table_entries.insert({name, she});
 		}
@@ -39,6 +40,14 @@ namespace Fformat{
 
 	Elf64::~Elf64(){
 
+	}
+
+	uint64_t Elf64::StartOf(const std::string& section){
+		return section_table_entries.at(section).offset;
+	}
+
+	uint64_t Elf64::SizeOf(const std::string& section){
+		return section_table_entries.at(section).size;
 	}
 
 }
