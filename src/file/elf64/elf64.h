@@ -1,8 +1,11 @@
 #ifndef ELF_64_H
 #define ELF_64_H
 
+#include <runtime/engine.h>
+
 #include <stdint.h>
 #include <unordered_map>
+#include <vector>
 
 
 namespace File{
@@ -49,8 +52,13 @@ namespace File{
 			Elf64(const Elf64&) = delete;
 			Elf64& operator=(const Elf64&) = delete;
 
-			uint64_t StartOf(const std::string&);
-			uint64_t SizeOf(const std::string&);
+			uint64_t StartOf(const std::string&) const;
+			uint64_t AddrOf(const std::string&) const;
+			uint64_t SizeOf(const std::string&) const;
+
+			void MapMemory(RuntimeEngine*, const std::vector<uint8_t>&) const;
+
+			void PrintLayout() const;
 
 	};
 }

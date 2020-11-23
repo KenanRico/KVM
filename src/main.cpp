@@ -1,4 +1,4 @@
-#include <binops.h>
+#include <executable/binops.h>
 #include <isa/isa.h>
 #include <isa/amd64/amd64.h>
 #include <file/file.h>
@@ -6,7 +6,8 @@
 #include <sys/sys.h>
 #include <sys/unix/unix.h>
 #include <log/log.h>
-#include <executable.h>
+#include <executable/executable.h>
+#include <runtime/engine.h>
 
 #include <iostream>
 #include <memory>
@@ -41,7 +42,10 @@ int main(int argc, const char** argv){
 		exit(-1);
 	}
 
-	exe->Run();
+	RuntimeEngine engine;
+	exe->MapMemory(&engine);
+	engine.PrintMemory();
+
 
 	return 0;
 }

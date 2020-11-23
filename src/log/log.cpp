@@ -26,7 +26,7 @@ namespace Log{
 			if(*fmt=='%'){
 				switch(*(++fmt)){
 					case 'd':
-						std::cout<<va_arg(args, int);
+						std::cout<<std::hex<<"0x"<<va_arg(args, int);
 						break;
 					case 'c':
 						std::cout<<static_cast<char>(va_arg(args, int));
@@ -39,6 +39,9 @@ namespace Log{
 							std::cout<<va_arg(args, long long);
 						}
 						break;
+					case 's':
+						std::cout<<va_arg(args, char*);
+						break;
 					default:
 						break;
 				}
@@ -47,7 +50,6 @@ namespace Log{
 			}
 			++fmt;
 		}
-		std::cout<<"\n";
 	}
 
 }

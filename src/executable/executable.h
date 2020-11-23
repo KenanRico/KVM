@@ -2,7 +2,9 @@
 #define EXECUTABLE_H
 
 
-#include <bin.h>
+#include "bin.h"
+
+#include <runtime/engine.h>
 
 #include <vector>
 #include <stdint.h>
@@ -24,7 +26,7 @@ class Executable: public Bin{
 		~Executable();
 
 	public:
-		void Run() override;
+		void MapMemory(RuntimeEngine*) override;
 	private:
 
 };
@@ -37,10 +39,6 @@ template<typename _FILE, typename _ISA, typename _SYS>
 Executable<_FILE, _ISA, _SYS>::Executable(const std::vector<uint8_t>& content):
 Bin(content),
 file(content){
-	//arch.Initialize(content, some_positions_in_elf_that_mark_sections);
-	isa.GenerateCode(content, file.StartOf(".text"), file.SizeOf(".text"));
-	isa.GenerateData(content, file.StartOf(".data"), file.SizeOf(".data"));
-	isa.GenerateROData(content, file.StartOf(".rodata"), file.SizeOf(".rodata"));
 }
 
 
@@ -51,18 +49,8 @@ Executable<_FILE, _ISA, _SYS>::~Executable(){
 
 
 template<typename _FILE, typename _ISA, typename _SYS>
-void Executable<_FILE, _ISA, _SYS>::Run(){
-	/*
-	// Dispatch loop
-	while(sys.State()!=_SYS::State::HALT){
-		const _ISA::Instruction& inst = arch.NextInstruction();
-		if(inst.Opcode()==_SYS::Opcode::INTERRUPT){
-			sys.MakeSyscall(...);
-		}else{
-			arch.Execute(...);
-		}
-	}
-	*/
+void Executable<_FILE, _ISA, _SYS>::MapMemory(RuntimeEngine* engine){
+	file.MapMemory(engine, content);
 }
 
 

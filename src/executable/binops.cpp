@@ -1,5 +1,6 @@
-#include <binops.h>
-#include <bin.h>
+#include "binops.h"
+#include "bin.h"
+
 #include <isa/isa.h>
 #include <isa/amd64/amd64.h>
 #include <file/file.h>
@@ -38,7 +39,7 @@ std::vector<uint8_t> CheckABI(const std::string& fn, int* fformat, int* isa, int
 	}
 
 	/* if file is not an EXEC, return empty content*/
-	if(content.at(static_cast<size_t>(16))!=2){
+	if(content.at(16)!=2){
 		return {};
 	}
 
@@ -57,7 +58,7 @@ std::vector<uint8_t> CheckABI(const std::string& fn, int* fformat, int* isa, int
 		case File::_ELF32:
 		case File::_ELF64:
 			*sys = Sys::_UNIX;
-			switch(content[static_cast<size_t>(18)]){
+			switch(content[18]){
 				case 0x3e:
 					*isa = ISA::_AMD64;
 					break;

@@ -1,10 +1,14 @@
-#include <file/file.h>
 #include "elf64.h"
+
+#include <file/file.h>
 #include <log/log.h>
+#include <runtime/engine.h>
+#include <runtime/memoryregion.h>
 
 #include <cstring>
-
 #include <iostream>
+#include <unordered_map>
+
 namespace File{
 
 	Elf64::Elf64(const std::vector<uint8_t>& content){
@@ -42,12 +46,39 @@ namespace File{
 
 	}
 
-	uint64_t Elf64::StartOf(const std::string& section){
+	uint64_t Elf64::StartOf(const std::string& section) const {
 		return section_table_entries.at(section).offset;
 	}
 
-	uint64_t Elf64::SizeOf(const std::string& section){
+	uint64_t Elf64::AddrOf(const std::string& section) const {
+		return section_table_entries.at(section).addr;
+	}
+
+	uint64_t Elf64::SizeOf(const std::string& section) const {
 		return section_table_entries.at(section).size;
+	}
+
+	void Elf64::MapMemory(RuntimeEngine* engine, const std::vector<uint8_t>& content) const {
+		for(std::unordered_map<std::string, SectionHeaderEntry>::const_iterator i=section_table_entries.begin(); i!=section_table_entries.end(); ++i){
+			const std::string& name = i->first;
+			const SectionHeaderEntry& she = i->second;
+			if(she.addr==0){
+				continue;
+			}
+			MemoryRegion mr(name, she.addr, she.addr+she.size-1);
+			if(mr.Copy(content, she.offset, she.size)){
+				engine->AddMemRegion(mr);
+			}else{
+				Log::Error("Failed to add memory region");
+			}
+		}
+	}
+
+	void Elf64::PrintLayout() const {
+		for(std::unordered_map<std::string, SectionHeaderEntry>::const_iterator i=section_table_entries.begin(); i!=section_table_entries.end(); ++i){
+			Log::Debugf("%s : ", i->first.data());
+			Log::Debugf("in-memory address = %lu, offset = %lu, size = %lu\n", i->second.addr, i->second.offset, i->second.size);
+		}
 	}
 
 }

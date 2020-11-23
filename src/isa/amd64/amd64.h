@@ -3,7 +3,11 @@
 
 
 #include <vector>
+#include <array>
 #include <stdint.h>
+
+
+#define MEM_SIZE 4194304 // 4MB
 
 
 namespace ISA{
@@ -18,10 +22,6 @@ namespace ISA{
 			~Amd64();
 			Amd64(const Amd64&) = delete;
 			Amd64& operator=(const Amd64&) = delete;
-		public:
-			void GenerateCode(const std::vector<uint8_t>&, uint64_t, uint64_t);
-			void GenerateData(const std::vector<uint8_t>&, uint64_t, uint64_t);
-			void GenerateROData(const std::vector<uint8_t>&, uint64_t, uint64_t);
 	};
 }
 

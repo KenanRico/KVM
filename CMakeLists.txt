@@ -5,12 +5,14 @@ project(SomethingVM CXX)
 set(SRCDIR src)
 set(SOURCE
 	${SRCDIR}/main.cpp
-	${SRCDIR}/bin.cpp 
-	${SRCDIR}/binops.cpp 
+	${SRCDIR}/executable/bin.cpp 
+	${SRCDIR}/executable/binops.cpp 
 	${SRCDIR}/isa/amd64/amd64.cpp
 	${SRCDIR}/sys/unix/unix.cpp
 	${SRCDIR}/file/elf64/elf64.cpp
 	${SRCDIR}/log/log.cpp
+	${SRCDIR}/runtime/engine.cpp
+	${SRCDIR}/runtime/memoryregion.cpp
 )
 
 include_directories(${SRCDIR})
