@@ -11,8 +11,7 @@ set(SOURCE
 	${SRCDIR}/sys/unix/unix.cpp
 	${SRCDIR}/file/elf64/elf64.cpp
 	${SRCDIR}/log/log.cpp
-	${SRCDIR}/runtime/engine.cpp
-	${SRCDIR}/runtime/memoryregion.cpp
+	${SRCDIR}/memory/memoryregion.cpp
 )
 
 include_directories(${SRCDIR})

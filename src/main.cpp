@@ -7,7 +7,6 @@
 #include <sys/unix/unix.h>
 #include <log/log.h>
 #include <executable/executable.h>
-#include <runtime/engine.h>
 
 #include <iostream>
 #include <memory>
@@ -42,9 +41,9 @@ int main(int argc, const char** argv){
 		exit(-1);
 	}
 
-	RuntimeEngine engine;
-	exe->MapMemory(&engine);
-	engine.PrintMemory();
+	exe->PrintMemory();
+
+	exe->Run();
 
 
 	return 0;

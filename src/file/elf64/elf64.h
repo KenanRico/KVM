@@ -1,11 +1,12 @@
 #ifndef ELF_64_H
 #define ELF_64_H
 
-#include <runtime/engine.h>
+#include <memory/memoryregion.h>
 
 #include <stdint.h>
 #include <unordered_map>
 #include <vector>
+#include <string>
 
 
 namespace File{
@@ -38,7 +39,9 @@ namespace File{
 					uint64_t addralign;
 					uint64_t entsize;
 			};
+
 			std::unordered_map<std::string, SectionHeaderEntry> section_table_entries;
+			constexpr static uint64_t entrypoint_offset = 24;
 
 		public:
 			enum class Position: size_t {
@@ -56,7 +59,8 @@ namespace File{
 			uint64_t AddrOf(const std::string&) const;
 			uint64_t SizeOf(const std::string&) const;
 
-			void MapMemory(RuntimeEngine*, const std::vector<uint8_t>&) const;
+			void MapMemory(const std::vector<uint8_t>&, std::unordered_map<std::string, MemoryRegion>*) const;
+			uint64_t EntryPointAddr(const std::vector<uint8_t>&) const;
 
 			void PrintLayout() const;
 

@@ -14,4 +14,11 @@ namespace ISA{
 
 	}
 
+	uint64_t Amd64::GetRegister(RegCode i){
+		return registers.at(static_cast<size_t>(i));
+	}
+
+	void Amd64::SetRegister(RegCode i, uint64_t v){
+		registers.at(static_cast<size_t>(i)) = v;
+	}
 }

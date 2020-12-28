@@ -2,8 +2,7 @@
 
 #include <file/file.h>
 #include <log/log.h>
-#include <runtime/engine.h>
-#include <runtime/memoryregion.h>
+#include <memory/memoryregion.h>
 
 #include <cstring>
 #include <iostream>
@@ -58,7 +57,7 @@ namespace File{
 		return section_table_entries.at(section).size;
 	}
 
-	void Elf64::MapMemory(RuntimeEngine* engine, const std::vector<uint8_t>& content) const {
+	void Elf64::MapMemory(const std::vector<uint8_t>& content, std::unordered_map<std::string, MemoryRegion>* memory) const {
 		for(std::unordered_map<std::string, SectionHeaderEntry>::const_iterator i=section_table_entries.begin(); i!=section_table_entries.end(); ++i){
 			const std::string& name = i->first;
 			const SectionHeaderEntry& she = i->second;
@@ -66,12 +65,29 @@ namespace File{
 				continue;
 			}
 			MemoryRegion mr(name, she.addr, she.addr+she.size-1);
-			if(mr.Copy(content, she.offset, she.size)){
-				engine->AddMemRegion(mr);
+			if(mr.Copy(content, she.offset, she.size) && memory->find(mr.name)==memory->end()){
+				memory->insert({mr.name, mr});
 			}else{
 				Log::Error("Failed to add memory region");
 			}
 		}
+		// stack and heap needs to be manually added
+    	MemoryRegion stack("stack", 0x0, 0x0);
+		if(memory->find("stack")==memory->end()){
+			memory->insert({"stack", stack});
+		}else{
+			Log::Error("Failed to add memory region");
+		}
+    	MemoryRegion heap("heap", 0x0, 0x0);
+		if(memory->find("heap")==memory->end()){
+			memory->insert({"heap", heap});
+		}else{
+			Log::Error("Failed to add memory region");
+		}
+	}
+	
+	uint64_t Elf64::EntryPointAddr(const std::vector<uint8_t>& c) const{
+		return ToIntegral<uint64_t>(c, entrypoint_offset, entrypoint_offset+7);
 	}
 
 	void Elf64::PrintLayout() const {

@@ -11,3 +11,4 @@ windows/bin/*
 !windows/bin/.gitkeep
 
 test/
+materials/

@@ -4,10 +4,12 @@
 
 #include "bin.h"
 
-#include <runtime/engine.h>
+#include <memory/memoryregion.h>
+#include <log/log.h>
 
 #include <vector>
 #include <stdint.h>
+#include <unordered_map>
 
 
 template<typename _FILE, typename _ISA, typename _SYS>
@@ -16,6 +18,7 @@ class Executable: public Bin{
 		_FILE file;
 		_ISA isa;
 		_SYS sys;
+		std::unordered_map<std::string, MemoryRegion> memory;
 
 	private:
 		Executable() = delete;
@@ -26,8 +29,8 @@ class Executable: public Bin{
 		~Executable();
 
 	public:
-		void MapMemory(RuntimeEngine*) override;
-	private:
+		void PrintMemory() const override;
+		void Run() override;
 
 };
 
@@ -39,6 +42,7 @@ template<typename _FILE, typename _ISA, typename _SYS>
 Executable<_FILE, _ISA, _SYS>::Executable(const std::vector<uint8_t>& content):
 Bin(content),
 file(content){
+	file.MapMemory(content, &memory);
 }
 
 
@@ -49,8 +53,36 @@ Executable<_FILE, _ISA, _SYS>::~Executable(){
 
 
 template<typename _FILE, typename _ISA, typename _SYS>
-void Executable<_FILE, _ISA, _SYS>::MapMemory(RuntimeEngine* engine){
-	file.MapMemory(engine, content);
+void Executable<_FILE, _ISA, _SYS>::PrintMemory() const{
+    for(auto i=memory.begin(); i!=memory.end(); ++i){
+        const std::string& name = i->first;
+        const MemoryRegion& mr = i->second;
+        Log::Debugf("%s: starts at %d, ends at %d\n", name.data(), mr.start, mr.end);
+        for(size_t j=0; j<mr.content.size(); ++j){
+            Log::Debugf("%lu ", mr.content[j]);
+        }
+        Log::Debugf("\n");
+    }
+}
+
+
+template<typename _FILE, typename _ISA, typename _SYS>
+void Executable<_FILE, _ISA, _SYS>::Run(){
+	//run
+	uint64_t entrypoint = file.EntryPointAddr(content);
+	Log::Debugf("entrypoint = %lu\n\n\n\n", entrypoint);
+	isa.SetRegister(_ISA::RegCode::PC, entrypoint);
+	/*
+	while(){
+		_ISA::Instruction&& inst = isa.Dispatch();
+		if(inst.IsSyscall()){
+			sys.Call(isa.Registers());
+		}else{
+			inst.Execute();
+		}
+		isa.IncPC();
+	}
+	*/
 }
 
 

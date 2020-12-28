@@ -1,7 +1,6 @@
 #ifndef BIN_H
 #define BIN_H
 
-#include <runtime/engine.h>
 
 #include <vector>
 #include <stdint.h>
@@ -17,8 +16,8 @@ class Bin{
 		Bin(const Bin&) = delete;
 		Bin& operator=(const Bin&) = delete;
 
-	public:
-		virtual void MapMemory(RuntimeEngine*) = 0;
+		virtual void Run() = 0;
+		virtual void PrintMemory() const = 0;
 };
 
 
