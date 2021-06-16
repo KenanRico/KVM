@@ -74,13 +74,13 @@ void Executable<_FILE, _ISA, _SYS>::Run(){
 	isa.SetRegister(_ISA::RegCode::PC, entrypoint);
 	/*
 	while(){
-		_ISA::Instruction&& inst = isa.Dispatch();
-		if(inst.IsSyscall()){
-			sys.Call(isa.Registers());
-		}else{
-			inst.Execute();
-		}
+		std::vector<uint8_t> inst = isa.Dispatch(content);
 		isa.IncPC();
+		if(isa.IsSyscall(inst)){
+			sys.Call(inst, isa.Registers());
+		}else{
+			isa.Execute(inst);
+		}
 	}
 	*/
 }
