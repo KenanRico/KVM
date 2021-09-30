@@ -3,6 +3,7 @@
 #include <file/file.h>
 #include <log/log.h>
 #include <memory/memoryregion.h>
+#include <util/bits.h>
 
 #include <cstring>
 #include <iostream>
@@ -72,13 +73,13 @@ namespace File{
 			}
 		}
 		// stack and heap needs to be manually added
-    	MemoryRegion stack("stack", 0x0, 0x0);
+		MemoryRegion stack("stack", 0x0, 0x0);
 		if(memory->find("stack")==memory->end()){
 			memory->insert({"stack", stack});
 		}else{
 			Log::Error("Failed to add memory region");
 		}
-    	MemoryRegion heap("heap", 0x0, 0x0);
+		MemoryRegion heap("heap", 0x0, 0x0);
 		if(memory->find("heap")==memory->end()){
 			memory->insert({"heap", heap});
 		}else{

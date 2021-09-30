@@ -12,3 +12,7 @@ To do:
     - extensive research on exactly how amd64 arch executes its instructions
     - research about the register architecture of amd64
     - implement Amd64::Instruction class which has access to registers and memory, and perform actions according to the binary sequence that is pointed to by PC
+
+
+- Use "gcc main.c -o run -no-pie -O0" to guarantee compiling test programs to an executable with no optimization
+- Use "objdump -S run" to disassemble executable

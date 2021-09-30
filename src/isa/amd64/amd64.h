@@ -12,8 +12,11 @@
 
 
 namespace ISA{
+
 	class Amd64;
+
 	using InstFuncPtrAmd64 = uint64_t(Amd64::*)(const std::vector<uint8_t>&);
+
 	//variables and actions specific to amd64 arch
 	class Amd64{
 		public:
@@ -52,6 +55,8 @@ namespace ISA{
 			//memory
 			//instruction
 			std::unordered_map<uint64_t, InstFuncPtrAmd64> instructions;
+		private:
+			uint64_t XOR(const std::vector<uint8_t>&);
 		public:
 			Amd64();
 			~Amd64();
